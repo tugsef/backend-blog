@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userName  String?
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  hash      String
+  hashedRt  String?
+  posts     Post[]
+  profile   Profile?
+  roles     Role[]
+
+  @@map("users")
+}
+
+model Post {
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  title      String
+  published  Boolean    @default(false)
+  authorId   Int
+  approve    Int
+  hashtag    String
+  story      String
+  author     User       @relation(fields: [authorId], references: [id],onDelete: Cascade)
+  categories Category[] @relation("CategoryToPost")
+
+  @@map("pots")
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id],onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  posts Post[] @relation("CategoryToPost")
+
+  @@map("categories")
+}
+
+model Role {
+  id     Int   @id @default(autoincrement())
+  role   ERole
+  userId Int
+  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("roles")
+}
+
+enum ERole {
+  USER
+  MODERATOR
+  ADMIN
+}
