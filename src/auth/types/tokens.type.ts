@@ -1,4 +1,12 @@
 export type Tokens = {
-  access_token: string;
-  refresh_token: string;
+  user: {
+    id: number;
+    email: string;
+    name: string;
+  };
+  backendTokens: {
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
+  };
 };

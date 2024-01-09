@@ -29,7 +29,7 @@ export class AuthService {
             role: ERole.USER,
           }
         : dto.roles?.map((rol) => {
-            switch (rol) {
+            switch (rol.toLowerCase()) {
               case "ADMIN":
                 return {
                   role: ERole.ADMIN,
@@ -89,7 +89,7 @@ export class AuthService {
     if (!passwordMatches) throw new ForbiddenException("Access Denied");
 
     const tokens = await this.getTokens(user.id, user.roles, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRtHash(user.id, tokens.backendTokens.refreshToken);
 
     return tokens;
   }
@@ -167,7 +167,7 @@ export class AuthService {
     if (!rtMatches) throw new ForbiddenException("Access Denied");
 
     const tokens = await this.getTokens(user.id, user.roles, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRtHash(user.id, tokens.backendTokens.refreshToken);
 
     return tokens;
   }
@@ -216,8 +216,18 @@ export class AuthService {
     ]);
 
     return {
-      access_token: at,
-      refresh_token: rt,
+
+      user:{
+        id:userId,
+        email:email,
+        name:""
+      },
+      backendTokens:{
+          accessToken:at,
+          refreshToken:rt,
+          expiresIn:7
+      }
+   
     };
   }
 

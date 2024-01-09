@@ -31,7 +31,7 @@ let AuthService = AuthService_1 = class AuthService {
                 role: client_1.ERole.USER,
             }
             : dto.roles?.map((rol) => {
-                switch (rol) {
+                switch (rol.toLowerCase()) {
                     case "ADMIN":
                         return {
                             role: client_1.ERole.ADMIN,
@@ -89,7 +89,7 @@ let AuthService = AuthService_1 = class AuthService {
         if (!passwordMatches)
             throw new common_1.ForbiddenException("Access Denied");
         const tokens = await this.getTokens(user.id, user.roles, user.email);
-        await this.updateRtHash(user.id, tokens.refresh_token);
+        await this.updateRtHash(user.id, tokens.backendTokens.refreshToken);
         return tokens;
     }
     async logout(userId) {
@@ -167,7 +167,7 @@ let AuthService = AuthService_1 = class AuthService {
         if (!rtMatches)
             throw new common_1.ForbiddenException("Access Denied");
         const tokens = await this.getTokens(user.id, user.roles, user.email);
-        await this.updateRtHash(user.id, tokens.refresh_token);
+        await this.updateRtHash(user.id, tokens.backendTokens.refreshToken);
         return tokens;
     }
     async updateRtHash(userId, rt) {
@@ -208,8 +208,16 @@ let AuthService = AuthService_1 = class AuthService {
             }),
         ]);
         return {
-            access_token: at,
-            refresh_token: rt,
+            user: {
+                id: userId,
+                email: email,
+                name: ""
+            },
+            backendTokens: {
+                accessToken: at,
+                refreshToken: rt,
+                expiresIn: 7
+            }
         };
     }
     async deleteAuth(userId) {
