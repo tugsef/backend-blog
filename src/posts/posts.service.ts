@@ -12,8 +12,7 @@ export class PostsService {
   logger: Logger;
   constructor(
     private prisma: PrismaService,
-    private config: ConfigService,
-    private message: MessageService
+
   ) {
     this.logger=new Logger();
   }

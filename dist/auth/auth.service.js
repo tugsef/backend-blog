@@ -17,6 +17,7 @@ const jwt_1 = require("@nestjs/jwt");
 const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const EXPIRE_TIME = 20 * 1000;
 let AuthService = AuthService_1 = class AuthService {
     constructor(prisma, jwtService, config) {
         this.prisma = prisma;
@@ -216,7 +217,7 @@ let AuthService = AuthService_1 = class AuthService {
             backendTokens: {
                 accessToken: at,
                 refreshToken: rt,
-                expiresIn: 7
+                expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
             }
         };
     }

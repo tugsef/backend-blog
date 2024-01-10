@@ -12,14 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
-const config_1 = require("@nestjs/config");
-const message_service_1 = require("../message/message.service");
 const client_1 = require("@prisma/client");
 let PostsService = class PostsService {
-    constructor(prisma, config, message) {
+    constructor(prisma) {
         this.prisma = prisma;
-        this.config = config;
-        this.message = message;
         this.logger = new common_1.Logger();
     }
     async getUserPosts(id) {
@@ -135,8 +131,6 @@ let PostsService = class PostsService {
 exports.PostsService = PostsService;
 exports.PostsService = PostsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        config_1.ConfigService,
-        message_service_1.MessageService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], PostsService);
 //# sourceMappingURL=posts.service.js.map

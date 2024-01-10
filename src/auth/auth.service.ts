@@ -11,6 +11,7 @@ import { ERole, Prisma, Role } from "@prisma/client";
 import { LoginAuthDto } from "./dto/req/login.dto";
 import { GetUserProfile } from "./dto/res/profile.dto";
 import { AuthDto } from "./dto/req";
+const EXPIRE_TIME = 20 * 60 * 60 * 1000;
 
 @Injectable()
 export class AuthService {
@@ -225,7 +226,7 @@ export class AuthService {
       backendTokens:{
           accessToken:at,
           refreshToken:rt,
-          expiresIn:7
+          expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
       }
    
     };
