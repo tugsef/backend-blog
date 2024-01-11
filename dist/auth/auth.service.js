@@ -17,7 +17,7 @@ const jwt_1 = require("@nestjs/jwt");
 const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
-const EXPIRE_TIME = 20 * 1000;
+const EXPIRE_TIME = 20 * 60 * 60 * 1000;
 let AuthService = AuthService_1 = class AuthService {
     constructor(prisma, jwtService, config) {
         this.prisma = prisma;
