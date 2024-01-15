@@ -1,4 +1,3 @@
-import { log } from "console";
 import { ForbiddenException, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
@@ -11,6 +10,7 @@ import { ERole, Prisma, Role } from "@prisma/client";
 import { LoginAuthDto } from "./dto/req/login.dto";
 import { GetUserProfile } from "./dto/res/profile.dto";
 import { AuthDto } from "./dto/req";
+import { MailService } from "src/mail/mail.service";
 const EXPIRE_TIME = 20 * 60 * 60 * 1000;
 
 @Injectable()
@@ -20,6 +20,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private config: ConfigService,
+    private mailService: MailService
   ) {}
 
   async signupLocal(dto: AuthDto): Promise<any> {
@@ -64,6 +65,8 @@ export class AuthService {
         }
         throw error;
       });
+      await this.mailService.sendUserConfirmation({ email:`${dto.email}`}  , "1234567");
+
     this.logger.log(`${dto.email} kullanıcı oluşturuldu.`);
   }
 

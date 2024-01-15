@@ -7,12 +7,14 @@ import { Role } from "@prisma/client";
 import { LoginAuthDto } from "./dto/req/login.dto";
 import { GetUserProfile } from "./dto/res/profile.dto";
 import { AuthDto } from "./dto/req";
+import { MailService } from "src/mail/mail.service";
 export declare class AuthService {
     private prisma;
     private jwtService;
     private config;
+    private mailService;
     private readonly logger;
-    constructor(prisma: PrismaService, jwtService: JwtService, config: ConfigService);
+    constructor(prisma: PrismaService, jwtService: JwtService, config: ConfigService, mailService: MailService);
     signupLocal(dto: AuthDto): Promise<any>;
     signinLocal(dto: LoginAuthDto): Promise<Tokens>;
     logout(userId: number): Promise<boolean>;

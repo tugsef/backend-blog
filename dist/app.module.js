@@ -20,6 +20,7 @@ const categories_controller_1 = require("./categories/categories.controller");
 const categories_service_1 = require("./categories/categories.service");
 const categories_module_1 = require("./categories/categories.module");
 const logger_middleware_1 = require("./utils/logger.middleware");
+const mail_module_1 = require("./mail/mail.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('*');
@@ -36,6 +37,7 @@ exports.AppModule = AppModule = __decorate([
             posts_module_1.PostsModule,
             moderator_module_1.ModeratorModule,
             categories_module_1.CategoriesModule,
+            mail_module_1.MailModule,
         ],
         providers: [
             {

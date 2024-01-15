@@ -17,12 +17,14 @@ const jwt_1 = require("@nestjs/jwt");
 const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const mail_service_1 = require("../mail/mail.service");
 const EXPIRE_TIME = 20 * 60 * 60 * 1000;
 let AuthService = AuthService_1 = class AuthService {
-    constructor(prisma, jwtService, config) {
+    constructor(prisma, jwtService, config, mailService) {
         this.prisma = prisma;
         this.jwtService = jwtService;
         this.config = config;
+        this.mailService = mailService;
         this.logger = new common_1.Logger(AuthService_1.name);
     }
     async signupLocal(dto) {
@@ -65,6 +67,7 @@ let AuthService = AuthService_1 = class AuthService {
             }
             throw error;
         });
+        await this.mailService.sendUserConfirmation({ email: `${dto.email}` }, "1234567");
         this.logger.log(`${dto.email} kullanıcı oluşturuldu.`);
     }
     async signinLocal(dto) {
@@ -293,6 +296,7 @@ exports.AuthService = AuthService = AuthService_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         jwt_1.JwtService,
-        config_1.ConfigService])
+        config_1.ConfigService,
+        mail_service_1.MailService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

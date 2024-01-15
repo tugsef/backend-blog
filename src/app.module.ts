@@ -11,6 +11,7 @@ import { CategoriesController } from './categories/categories.controller';
 import { CategoriesService } from './categories/categories.service';
 import { CategoriesModule } from './categories/categories.module';
 import { LoggerMiddleware } from './utils/logger.middleware';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { LoggerMiddleware } from './utils/logger.middleware';
     PostsModule,
     ModeratorModule,
     CategoriesModule,
+    MailModule,
   ],
   providers: [
     {
