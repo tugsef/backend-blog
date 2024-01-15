@@ -65,9 +65,10 @@ export class AuthService {
         }
         throw error;
       });
+      this.logger.log(`${dto.email} kullanıcı oluşturuldu.`);
+
       await this.mailService.sendUserConfirmation({ email:`${dto.email}`}  , "1234567");
 
-    this.logger.log(`${dto.email} kullanıcı oluşturuldu.`);
   }
 
   async signinLocal(dto: LoginAuthDto): Promise<Tokens> {
